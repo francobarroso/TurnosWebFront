@@ -1,0 +1,58 @@
+import { Box, Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import colorConfigs from "../configs/colorConfig";
+import AddIcon from "@mui/icons-material/Add";
+import PeopleIcon from '@mui/icons-material/People';
+
+function Empleados() {
+    return (
+        <>
+            <Box>
+                <Box
+                    mt={0}
+                    sx={{
+                        backgroundColor: "#c5c5c5",
+                        borderRadius: "20px",
+                        p: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                        sx={{ ...colorConfigs.buttonStyles }}
+                    >
+                        Agregar Empleado
+                    </Button>
+                    <Stack direction="column" alignItems="flex-end">
+                        <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+                            <PeopleIcon /> 3
+                        </Typography>
+                        <Typography variant="h6" sx={{ fontSize: "18px" }}>
+                            Empleados
+                        </Typography>
+                    </Stack>
+                </Box>
+                <TableContainer component={Paper} style={{ flex: "1", marginBottom: '10px', marginTop: '20px', backgroundColor: "#c5c5c5", borderRadius: "20px" }}>
+                    <Table sx={{ minHeight: "0" }}>
+                        <TableHead >
+                            <TableRow>
+                                <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Nombre</TableCell>
+                                <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Apellido</TableCell>
+                                <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Rol</TableCell>
+                                <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Username</TableCell>
+                                <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Acciones</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Box>
+        </>
+    )
+}
+
+export default Empleados;

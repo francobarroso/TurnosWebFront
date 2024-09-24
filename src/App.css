@@ -7,7 +7,7 @@
 
 .flex {
     display: flex;
-    height: 100vh;
+    height: auto;
 }
 
 body {
@@ -62,4 +62,14 @@ body {
 .active {
     background-color: #a32929; /* Gris claro cuando la opción está activa */
     border-radius: 8px; /* Un poco de redondeo en los bordes, opcional */
+}
+
+@media (max-width:800px){
+    .topbar{
+        position: relative;
+    }
+
+    body{
+        width: auto;
+    }
 }

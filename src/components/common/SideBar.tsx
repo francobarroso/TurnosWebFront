@@ -1,6 +1,7 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import MonitorIcon from '@mui/icons-material/Monitor';
+import PeopleIcon from '@mui/icons-material/People';
 
 function SideBar() {
     const location = useLocation();
@@ -19,6 +20,12 @@ function SideBar() {
                         <Link to={"/turnos"} className={"link"}>
                             <MonitorIcon />
                             Turnos
+                        </Link>
+                    </li>
+                    <li className={location.pathname === "/empleados" ? "active" : ""}>
+                        <Link to={"/empleados"} className={"link"}>
+                            <PeopleIcon />
+                            Empleados
                         </Link>
                     </li>
                 </ul>

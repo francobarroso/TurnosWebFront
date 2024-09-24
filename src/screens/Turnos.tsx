@@ -29,23 +29,29 @@ function Turnos() {
         setOpen(true);
     }
 
-    const handleClose = () =>{
+    const handleClose = () => {
         setOpen(false);
     }
-    
+
     useEffect(() => {
         const fetchData = async () => {
             const turnos = await TurnoGetAll();
-            setTurnos(turnos);
+            setTurnos((prevTurnos) => {
+                if (JSON.stringify(prevTurnos) !== JSON.stringify(turnos)) {
+                    return turnos;
+                }
+                return prevTurnos;
+            });
         }
 
         fetchData();
-    })
+    }, [])
+
     return (
         <>
             <Box>
                 <Box
-                    mt={2}
+                    mt={0}
                     sx={{
                         backgroundColor: "#c5c5c5",
                         borderRadius: "20px",
@@ -86,8 +92,8 @@ function Turnos() {
                         </TableHead>
                         <TableBody>
                             {turnos.map((turno, index) => (
-                                    <TurnoTable turno={turno} index={index} />
-                                ))
+                                <TurnoTable turno={turno} index={index} />
+                            ))
                             }
                         </TableBody>
                     </Table>

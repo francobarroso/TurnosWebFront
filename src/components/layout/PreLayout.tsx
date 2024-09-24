@@ -1,23 +1,17 @@
 import { Outlet } from "react-router-dom";
-import { Box, Toolbar } from "@mui/material";
+import { Box } from "@mui/material";
+import SideBar from "../common/SideBar";
 import TopBar from "../common/TopBar";
 
 const PreLayout = () => {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <TopBar />
-      <Box
-        component="pre"
-        sx={{
-          flexGrow: 1,
-          p: 1,
-          width: `calc(100% - 14rem)`,
-          minHeight: "100vh",
-          backgroundColor: "#fffff"
-        }}
-      >
-        <Toolbar />
-        <Outlet />
+      <Box className="flex">
+        <SideBar />
+        <Box className="content">
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

@@ -65,7 +65,7 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
             ...prev,
             fechaTurno: new Date().toISOString().split('T')[0]
         }));
-    })
+    },[])
 
     return (
         <>
@@ -101,6 +101,7 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
                         value={currentTurno.nombre}
                         onChange={handleChange}
                         margin="normal"
+                        size="small"
                     />
                     <TextField
                         fullWidth
