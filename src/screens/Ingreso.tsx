@@ -4,7 +4,7 @@ function Ingreso() {
     return (
         <>
             <h1>Ingreso</h1>
-            <Button variant="contained">Entrar</Button>
+            <Button variant="contained" onClick={() => window.location.href = "/inicio"}>Entrar</Button>
         </>
     )
 }
