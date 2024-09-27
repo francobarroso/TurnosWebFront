@@ -1,0 +1,88 @@
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55%;
+    background-color: #f1f1f1;
+    padding: 40px 20px 20px;
+    border-radius: 15px;
+    overflow: auto;
+    max-height: 80vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #686868;
+    cursor: pointer;
+}
+
+.textField:nth-child(1) {
+    display: flex;
+    width: 49%;
+    margin-right: 2%;
+}
+
+.textField:nth-child(2) {
+    display: flex;
+    width: 49%;
+}
+
+.textField:nth-child(3) {
+    display: flex;
+    width: 49%;
+    margin-right: 2%;
+}
+
+.textField:nth-child(4) {
+    display: flex;
+    width: 49%;
+}
+
+.textField:nth-child(5) {
+    display: flex;
+    width: 49%;
+    margin-right: 2%;
+}
+
+.autocomplete{
+    display: flex;
+    width: 49%;
+}
+
+.button{
+    display: flex;
+    background-color: #a32929;
+    color: #f1f1f1;
+}
+
+.buttonContainer{
+    width: 100%;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.button:hover{
+    background-color: #842121;
+}
+
+@media(max-width: 800px) {
+    .modal {
+        width: 70%;
+    }
+
+    .textField:nth-child(5){
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .autocomplete{
+        width: 100%;
+    }
+}

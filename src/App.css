@@ -14,62 +14,16 @@ body {
     font-family: "Rubik", sans-serif;
 }
 
-.topbar {
-    background-color: white;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid rgb(187, 187, 187);
-    background-color: rgb(163, 41, 41);
-    box-sizing: border-box;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.sidebar {
-    margin-top: 10px;
-    width: 14rem;
-    height: 100vh;
-    border-right: 1px solid rgb(187, 187, 187);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    ul {
-        list-style: none;
-        padding: 1rem 2rem;
-        li{
-            margin-bottom: 1rem;
-            a{
-                text-decoration: none;
-            }
-        }
-    }
-}
-
 .content {
-    flex: 1; /* Permite que el contenido ocupe todo el espacio disponible */
-    padding: 16px; /* Ajusta el padding según sea necesario */
-    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+    flex: 1;
+    padding: 16px;
+    box-sizing: border-box;
+    padding-top: 88px;
+    padding-left: 240px;
 }
 
-.link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: black;
-    gap: 0.5rem; /* Espacio entre el ícono y el texto */
-}
-
-.link:hover {
-    color: rgb(61, 61, 61); /* Cambia el color del texto al pasar el mouse, si lo deseas */
-}
-
-.active {
-    background-color: #a32929; /* Gris claro cuando la opción está activa */
-    border-radius: 8px; /* Un poco de redondeo en los bordes, opcional */
-}
-
-@media (max-width:800px){
-    .topbar{
-        position: relative;
-    }
-
-    body{
-        width: auto;
+@media(max-width:800px){
+    .content{
+        padding-left: 16px;
     }
 }

@@ -2,29 +2,43 @@ import { Box, Button, Paper, Stack, Table, TableBody, TableCell, TableContainer,
 import colorConfigs from "../configs/colorConfig";
 import AddIcon from "@mui/icons-material/Add";
 import PeopleIcon from '@mui/icons-material/People';
+import { useEffect, useState } from "react";
+import styles from './Empleados.module.css';
 
 function Empleados() {
+    const [windowDimension, setWindowDimension] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight
+    });
+
+    const detectDimension = () => {
+        setWindowDimension({
+            width: window.innerWidth,
+            height: window.innerHeight
+        })
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', detectDimension)
+        return () => {
+            window.removeEventListener('resize', detectDimension)
+        }
+    }, [windowDimension])
+
     return (
         <>
             <Box>
                 <Box
                     mt={0}
-                    sx={{
-                        backgroundColor: "#c5c5c5",
-                        borderRadius: "20px",
-                        p: 2,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                    }}
+                    className={styles.head}
                 >
                     <Button
                         variant="contained"
                         color="primary"
-                        startIcon={<AddIcon />}
                         sx={{ ...colorConfigs.buttonStyles }}
+                        className={styles.button}
                     >
-                        Agregar Empleado
+                        <AddIcon /> {windowDimension.width > 800 && <span>Agregar Empleado</span>}
                     </Button>
                     <Stack direction="column" alignItems="flex-end">
                         <Typography variant="h2" sx={{ fontWeight: 'bold' }}>

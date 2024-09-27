@@ -1,9 +1,11 @@
-import { Autocomplete, Box, Modal, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Modal, TextField } from "@mui/material";
 import Turno from "../../../types/Turno";
-import sizeConfigs from "../../../configs/sizeConfig";
 import { useEffect, useState } from "react";
 import { ServicioGetAll } from "../../../services/ServicioService";
 import Servicio from "../../../types/Servicio";
+import styles from './TurnoModal.module.css';
+import CloseIcon from '@mui/icons-material/Close';
+import colorConfigs from "../../../configs/colorConfig";
 
 interface TurnoTableProps {
     open: boolean;
@@ -65,12 +67,12 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
             ...prev,
             fechaTurno: new Date().toISOString().split('T')[0]
         }));
-    },[])
+    }, [])
 
     return (
         <>
             <Modal open={open} onClose={handleClose}>
-                <Box sx={{ ...sizeConfigs.modalStyle, overflow: 'auto', maxHeight: '80vh' }}>
+                <Box className={styles.modal}>
                     <TextField
                         fullWidth
                         label="Fecha Turno"
@@ -78,6 +80,7 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
                         name="fechaTurno"
                         value={currentTurno.fechaTurno}
                         margin="normal"
+                        className={styles.textField}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -90,6 +93,7 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
                         value={currentTurno.horaTurno}
                         onChange={handleChange}
                         margin="normal"
+                        className={styles.textField}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -101,6 +105,7 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
                         value={currentTurno.nombre}
                         onChange={handleChange}
                         margin="normal"
+                        className={styles.textField}
                         size="small"
                     />
                     <TextField
@@ -109,6 +114,8 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
                         name="apellido"
                         value={currentTurno.apellido}
                         onChange={handleChange}
+                        size="small"
+                        className={styles.textField}
                         margin="normal"
                     />
                     <TextField
@@ -117,6 +124,8 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
                         name="email"
                         value={currentTurno.email}
                         onChange={handleChange}
+                        size="small"
+                        className={styles.textField}
                         margin="normal"
                     />
                     <Autocomplete
@@ -129,12 +138,18 @@ const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
                                 margin="normal"
                                 fullWidth
                                 variant="outlined"
+                                size="small"
                             />
                         )}
                         value={servicios.find(servicio => servicio.id === currentTurno.servicio?.id) || null}
                         onChange={(_, newValue) => handleLocalidadChange({ target: { value: newValue?.id || 0 } })}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
+                        className={styles.autocomplete}
                     />
+                    <CloseIcon onClick={handleClose} className={styles.closeButton} />
+                    <Box className={styles.buttonContainer}>
+                        <Button variant="contained" sx={{ ...colorConfigs.buttonStyles }} className={styles.button}>Agendar</Button>
+                    </Box>
                 </Box>
             </Modal>
         </>
