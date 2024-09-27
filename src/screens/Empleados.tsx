@@ -4,8 +4,19 @@ import AddIcon from "@mui/icons-material/Add";
 import PeopleIcon from '@mui/icons-material/People';
 import { useEffect, useState } from "react";
 import styles from './Empleados.module.css';
+import EmpleadosModal from "../components/ui/Empleados/EmpleadosModal";
+
+const emptyEmpleado = {
+    id: null,
+    eliminado: false,
+    nombre: "",
+    apellido: "",
+    usuario: null,
+    horario: null
+}
 
 function Empleados() {
+    const [open, setOpen] = useState(false);
     const [windowDimension, setWindowDimension] = useState({
         width: window.innerWidth,
         height: window.innerHeight
@@ -23,7 +34,7 @@ function Empleados() {
         return () => {
             window.removeEventListener('resize', detectDimension)
         }
-    }, [windowDimension])
+    }, [windowDimension]);
 
     return (
         <>
@@ -37,6 +48,7 @@ function Empleados() {
                         color="primary"
                         sx={{ ...colorConfigs.buttonStyles }}
                         className={styles.button}
+                        onClick={() => setOpen(!open)}
                     >
                         <AddIcon /> {windowDimension.width > 800 && <span>Agregar Empleado</span>}
                     </Button>
@@ -65,6 +77,7 @@ function Empleados() {
                     </Table>
                 </TableContainer>
             </Box>
+            <EmpleadosModal open={open} empleado={emptyEmpleado} onClose={() => setOpen(!open)}/>
         </>
     )
 }

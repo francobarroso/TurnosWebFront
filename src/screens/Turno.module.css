@@ -12,8 +12,20 @@
     align-items: center;
 }
 
+.table {
+    flex: 1 !important;
+    margin-bottom: 10px !important;
+    margin-top: 20px !important;
+    background-color: #c5c5c5 !important;
+    border-radius: 20px !important;
+}
+
 @media(max-width: 800px) {
     /*.head {
         justify-content: space-around;
     }*/
+
+    .table{
+        margin-bottom: 50px !important;
+    }
 }

@@ -1,6 +1,4 @@
 import { Button, TableCell, TableRow } from "@mui/material";
-import TurnoDto from "../../../types/TurnoDto";
-import { TipoTurno } from "../../../types/enums/TipoTurno";
 import colorConfigs from "../../../configs/colorConfig";
 import Turno from "../../../types/Turno";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -19,7 +17,7 @@ const TurnoTable: React.FC<TurnoTableProps> = ({ turno, index }) => {
                 <TableCell align="center">{turno.fechaTurno}</TableCell>
                 <TableCell align="center">{turno.horaTurno}hs</TableCell>
                 <TableCell align="center">{turno.nombre} {turno.apellido}</TableCell>
-                <TableCell align="center">{turno.servicio?.denominacion === TipoTurno.CORTE ? "Corte" : "Corte y Barba"}</TableCell>
+                <TableCell align="center">{turno.servicio?.denominacion === "Corte" ? "Corte" : "Corte y Barba"}</TableCell>
                 <TableCell align="center">
                     {turno.terminado === true ? (
                         <CheckCircleOutlineIcon color="success"/>

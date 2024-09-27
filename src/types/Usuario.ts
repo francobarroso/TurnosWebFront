@@ -3,6 +3,5 @@ import { Rol } from "./enums/Rol";
 
 export default interface Usuario extends Base{
     username: string,
-    password: string,
-    tol: Rol,
+    rol: Rol,
 }

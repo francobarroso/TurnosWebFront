@@ -7,16 +7,16 @@ import styles from './TurnoModal.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 import colorConfigs from "../../../configs/colorConfig";
 
-interface TurnoTableProps {
+interface TurnoModalProps {
     open: boolean;
     onClose: () => void;
     turno: Turno;
 }
 
-const TurnoModal: React.FC<TurnoTableProps> = ({ open, onClose, turno }) => {
+const TurnoModal: React.FC<TurnoModalProps> = ({ open, onClose, turno }) => {
     const [currentTurno, setCurrentTurno] = useState<Turno>({ ...turno });
     const [servicios, setServicios] = useState<Servicio[]>([]);
-
+    
     type CustomChangeEvent = {
         target: {
             value: unknown;

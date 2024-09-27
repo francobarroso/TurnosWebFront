@@ -202,6 +202,8 @@ function Turnos() {
         return () => {
             window.removeEventListener('resize', detectDimension)
         }
+
+        console.log(turnos);
     }, [windowDimension])
 
     const handleGenerarTurno = () => {
@@ -251,7 +253,7 @@ function Turnos() {
                         </Typography>
                     </Stack>
                 </Box>
-                <TableContainer component={Paper} style={{ flex: "1", marginBottom: '10px', marginTop: '20px', backgroundColor: "#c5c5c5", borderRadius: "20px" }}>
+                <TableContainer component={Paper} className={styles.table}>
                     <Table sx={{ minHeight: "0" }}>
                         <TableHead >
                             <TableRow>
