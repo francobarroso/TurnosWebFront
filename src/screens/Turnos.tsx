@@ -266,7 +266,7 @@ function Turnos() {
                         </TableHead>
                         <TableBody>
                             {mockTurnos.map((turno, index) => (
-                                <TurnoTable turno={turno} index={index} />
+                                <TurnoTable key={index} turno={turno} index={index} />
                             ))
                             }
                         </TableBody>

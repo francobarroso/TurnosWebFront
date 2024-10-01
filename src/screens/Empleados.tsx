@@ -5,6 +5,9 @@ import PeopleIcon from '@mui/icons-material/People';
 import { useEffect, useState } from "react";
 import styles from './Empleados.module.css';
 import EmpleadosModal from "../components/ui/Empleados/EmpleadosModal";
+import { EmpleadoGetAll } from "../services/EmpleadoService";
+import EmpleadoDto from "../types/EmpleadoDto";
+import EmpleadosTable from "../components/ui/Empleados/EmpleadosTable";
 
 const emptyEmpleado = {
     id: null,
@@ -12,10 +15,21 @@ const emptyEmpleado = {
     nombre: "",
     apellido: "",
     usuario: null,
-    horario: null
+    horario: {
+        id: null,
+        eliminado: false,
+        detalles: []
+    },
+    negocio: {
+        id: 1,
+        eliminado: false,
+        denominacion: "",
+        horario: ""
+    }
 }
 
 function Empleados() {
+    const [empleados, setEmpleados] = useState<EmpleadoDto[]>([]);
     const [open, setOpen] = useState(false);
     const [windowDimension, setWindowDimension] = useState({
         width: window.innerWidth,
@@ -35,6 +49,15 @@ function Empleados() {
             window.removeEventListener('resize', detectDimension)
         }
     }, [windowDimension]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const empleados = await EmpleadoGetAll();
+            setEmpleados(empleados);
+        }
+
+        fetchData();
+    }, [])
 
     return (
         <>
@@ -63,21 +86,26 @@ function Empleados() {
                 </Box>
                 <TableContainer component={Paper} style={{ flex: "1", marginBottom: '10px', marginTop: '20px', backgroundColor: "#c5c5c5", borderRadius: "20px" }}>
                     <Table sx={{ minHeight: "0" }}>
-                        <TableHead >
+                        <TableHead>
                             <TableRow>
                                 <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Nombre</TableCell>
-                                <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Apellido</TableCell>
                                 <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Rol</TableCell>
-                                <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Username</TableCell>
+                                {windowDimension.width > 800 &&
+                                    <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Username</TableCell>
+                                }
                                 <TableCell style={{ color: 'black', fontWeight: 'bold' }} align="center">Acciones</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            {empleados.map((empleado, index) => (
+                                <EmpleadosTable key={index} empleado={empleado} index={index} />
+                            ))
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
             </Box>
-            <EmpleadosModal open={open} empleado={emptyEmpleado} onClose={() => setOpen(!open)}/>
+            <EmpleadosModal open={open} empleado={emptyEmpleado} onClose={() => setOpen(!open)} />
         </>
     )
 }

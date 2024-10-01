@@ -82,20 +82,39 @@
     justify-content: center;
 }
 
+.diasButton{
+    border-radius: 25px !important;
+    margin-bottom: 2px !important;
+}
+
 .form {
     display: flex;
     width: 100%;
+    flex-direction: row;
+    align-items: center;
 }
 
 .horaForm:nth-child(1) {
     display: flex;
-    width: 49%;
+    width: 48%;
     margin-right: 2%;
 }
 
 .horaForm:nth-child(2) {
     display: flex;
-    width: 49%;
+    width: 48%;
+}
+
+.horaForm:nth-child(3) {
+    display: flex;
+    padding-left: 2%;
+    color: black;
+    transition: 0.5s;
+}
+
+.horaForm:nth-child(3):hover {
+    cursor: pointer;
+    color: #424242;
 }
 
 .button {
@@ -106,7 +125,6 @@
 
 .buttonContainer {
     width: 100%;
-    padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
