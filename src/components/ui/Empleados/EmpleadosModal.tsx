@@ -6,13 +6,13 @@ import { Rol } from "../../../types/enums/Rol";
 import colorConfigs from "../../../configs/colorConfig";
 import CloseIcon from '@mui/icons-material/Close';
 import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
-import HorarioDetalles from "../../../types/HorarioDetalles";
 import Dia from "../../../types/Dia";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { DiaGetAll } from "../../../services/DiaService";
 import Usuario from "../../../types/Usuario";
 import { EmpleadoCreate } from "../../../services/EmpleadoService";
 import React from "react";
+import Horario from "../../../types/Horario";
 
 interface EmpleadoModalProps {
     open: boolean;
@@ -37,7 +37,7 @@ const emptyUsuario = {
 
 const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado }) => {
     const [currentEmpleado, setCurrentEmpleado] = useState<Empleado>({ ...empleado });
-    const [currentDetalles, setCurrentDetalles] = useState<HorarioDetalles[]>([emptyDetalles]);
+    const [currentDetalles, setCurrentDetalles] = useState<Horario[]>([emptyDetalles]);
     const [currentUsuario, setCurrentUsuario] = useState<Usuario>(emptyUsuario);
     const roles = Object.values(Rol).map((rol) => rol as Rol);
     const [dias, setDias] = useState<Dia[]>([]);
@@ -151,10 +151,7 @@ const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado 
     const handleSubmit = async () => {
         const empleadoActualizado = {
             ...currentEmpleado,
-            horario: { 
-                ...currentEmpleado.horario,
-                detalles: currentDetalles
-            },
+            horarios: currentDetalles,
             usuario: currentUsuario
         };
         

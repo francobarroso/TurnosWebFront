@@ -1,6 +1,8 @@
 import Base from "./Base";
-import HorarioDetalles from "./HorarioDetalles";
+import Dia from "./Dia";
 
 export default interface Horario extends Base{
-    detalles: HorarioDetalles[]
+    horaInicio: string,
+    horaFin: string
+    dias: Dia[];
 }

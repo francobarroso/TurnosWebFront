@@ -5,6 +5,7 @@ export default interface TurnoDto extends Base{
     fechaTurno: string,
     horaTurno: string,
     nombre: string,
-    apellido: string
-    servicio: Servicio
+    apellido: string,
+    servicio: Servicio,
+    terminado: boolean
 }

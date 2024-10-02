@@ -38,7 +38,7 @@ const EmpleadosTable: React.FC<EmpleadosTableProps> = ({ empleado, index }) => {
                 }
                 <TableCell align="center">
                     <IconButton>
-                        <InfoIcon />
+                        <InfoIcon color="primary"/>
                     </IconButton>
                 </TableCell>
             </TableRow>

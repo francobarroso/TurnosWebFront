@@ -6,6 +6,7 @@ import Servicio from "../../../types/Servicio";
 import styles from './TurnoModal.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 import colorConfigs from "../../../configs/colorConfig";
+import { TurnoCreate } from "../../../services/TurnoService";
 
 interface TurnoModalProps {
     open: boolean;
@@ -16,19 +17,20 @@ interface TurnoModalProps {
 const TurnoModal: React.FC<TurnoModalProps> = ({ open, onClose, turno }) => {
     const [currentTurno, setCurrentTurno] = useState<Turno>({ ...turno });
     const [servicios, setServicios] = useState<Servicio[]>([]);
-    
+
     type CustomChangeEvent = {
         target: {
             value: unknown;
         };
     };
 
-    const handleLocalidadChange = (e: CustomChangeEvent) => {
+    const handleServicioChange = (e: CustomChangeEvent) => {
         const servicioId = e.target.value as number;
         const servicio = servicios.find(s => s.id === servicioId) || null;
         setCurrentTurno(prev => ({
             ...prev,
-            servicio: servicio
+            servicio: servicio,
+            monto: servicio && servicio.precio
         }));
     };
 
@@ -62,12 +64,14 @@ const TurnoModal: React.FC<TurnoModalProps> = ({ open, onClose, turno }) => {
         }
 
         fetchData();
+    }, []);
 
-        setCurrentTurno(prev => ({
-            ...prev,
-            fechaTurno: new Date().toISOString().split('T')[0]
-        }));
-    }, [])
+    const handleSubmit = async () => {
+        console.log(currentTurno);
+
+        await TurnoCreate(currentTurno);
+        handleClose();
+    }
 
     return (
         <>
@@ -142,13 +146,13 @@ const TurnoModal: React.FC<TurnoModalProps> = ({ open, onClose, turno }) => {
                             />
                         )}
                         value={servicios.find(servicio => servicio.id === currentTurno.servicio?.id) || null}
-                        onChange={(_, newValue) => handleLocalidadChange({ target: { value: newValue?.id || 0 } })}
+                        onChange={(_, newValue) => handleServicioChange({ target: { value: newValue?.id || 0 } })}
                         isOptionEqualToValue={(option, value) => option.id === value.id}
                         className={styles.autocomplete}
                     />
                     <CloseIcon onClick={handleClose} className={styles.closeButton} />
                     <Box className={styles.buttonContainer}>
-                        <Button variant="contained" sx={{ ...colorConfigs.buttonStyles }} className={styles.button}>Agendar</Button>
+                        <Button variant="contained" sx={{ ...colorConfigs.buttonStyles }} className={styles.button} onClick={handleSubmit}>Agendar</Button>
                     </Box>
                 </Box>
             </Modal>

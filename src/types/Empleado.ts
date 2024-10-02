@@ -7,6 +7,6 @@ export default interface Empleado extends Base{
     nombre: string,
     apellido: string,
     usuario: Usuario | null,
-    horario: Horario,
+    horarios: Horario[],
     negocio: Negocio
 }

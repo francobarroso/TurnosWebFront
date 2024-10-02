@@ -15,11 +15,7 @@ const emptyEmpleado = {
     nombre: "",
     apellido: "",
     usuario: null,
-    horario: {
-        id: null,
-        eliminado: false,
-        detalles: []
-    },
+    horarios: [],
     negocio: {
         id: 1,
         eliminado: false,
@@ -57,7 +53,13 @@ function Empleados() {
         }
 
         fetchData();
-    }, [])
+    }, []);
+
+    const handleClose = async () => {
+        setOpen(!open);
+        const empleados = await EmpleadoGetAll();
+        setEmpleados(empleados);
+    }
 
     return (
         <>
@@ -105,7 +107,7 @@ function Empleados() {
                     </Table>
                 </TableContainer>
             </Box>
-            <EmpleadosModal open={open} empleado={emptyEmpleado} onClose={() => setOpen(!open)} />
+            <EmpleadosModal open={open} empleado={emptyEmpleado} onClose={handleClose} />
         </>
     )
 }

@@ -12,14 +12,21 @@ import styles from './Turno.module.css';
 const emptyTurno = {
     id: null,
     eliminado: false,
-    fechaTurno: '',
+    fechaTurno: new Date().toISOString().split('T')[0],
     horaTurno: '',
     servicio: null,
     nombre: '',
     apellido: '',
     email: '',
     monto: null,
-    terminado: false
+    terminado: false,
+    empleado: {
+        id: 1,
+        eliminado: false,
+        nombre: "Franco",
+        apellido: "Barroso",
+        usuario: null
+    }
 };
 
 function Turnos() {
@@ -29,166 +36,6 @@ function Turnos() {
         width: window.innerWidth,
         height: window.innerHeight
     });
-
-    const mockTurnos = [
-        {
-            id: 1,
-            eliminado: false,
-            fechaTurno: '2024-04-12',
-            horaTurno: '08:08',
-            servicio: { id: 2, eliminado: false, denominacion: 'Manicura', precio: 1200 },
-            nombre: 'Steve',
-            apellido: 'Carlson',
-            email: 'nicholas20@day.com',
-            monto: 1795,
-            terminado: true
-        },
-        {
-            id: 2,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 3,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 4,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 5,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 6,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 7,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 8,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 9,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 10,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 10,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 11,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        },
-        {
-            id: 12,
-            eliminado: false,
-            fechaTurno: '2024-09-21',
-            horaTurno: '01:17',
-            servicio: { id: 1, eliminado: false, denominacion: 'Corte de Cabello', precio: 1500 },
-            nombre: 'Christopher',
-            apellido: 'Rice',
-            email: 'chloe17@gmail.com',
-            monto: 1596,
-            terminado: false
-        }
-        // ... (continues up to id: 30)
-    ];
 
     const detectDimension = () => {
         setWindowDimension({
@@ -203,30 +50,26 @@ function Turnos() {
             window.removeEventListener('resize', detectDimension)
         }
 
-        console.log(turnos);
-    }, [windowDimension])
+    }, [windowDimension]);
 
     const handleGenerarTurno = () => {
         setOpen(true);
     }
 
-    const handleClose = () => {
+    const handleClose = async () => {
         setOpen(false);
+        const turnos = await TurnoGetAll();
+        setTurnos(turnos);
     }
 
     useEffect(() => {
         const fetchData = async () => {
             const turnos = await TurnoGetAll();
-            setTurnos((prevTurnos) => {
-                if (JSON.stringify(prevTurnos) !== JSON.stringify(turnos)) {
-                    return turnos;
-                }
-                return prevTurnos;
-            });
+            setTurnos(turnos);
         }
 
         fetchData();
-    }, [])
+    }, []);
 
     return (
         <>
@@ -265,7 +108,7 @@ function Turnos() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {mockTurnos.map((turno, index) => (
+                            {turnos.map((turno, index) => (
                                 <TurnoTable key={index} turno={turno} index={index} />
                             ))
                             }
