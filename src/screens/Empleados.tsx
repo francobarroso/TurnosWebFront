@@ -14,8 +14,21 @@ const emptyEmpleado = {
     eliminado: false,
     nombre: "",
     apellido: "",
-    usuario: null,
-    horarios: [],
+    usuario: {
+        id: null,
+        eliminado: false,
+        username: "",
+        rol: null
+    },
+    horarios: [
+        {
+            id: null,
+            eliminado: false,
+            horaInicio: "",
+            horaFin: "",
+            dias: []
+        }
+    ],
     negocio: {
         id: 1,
         eliminado: false,
@@ -100,7 +113,7 @@ function Empleados() {
                         </TableHead>
                         <TableBody>
                             {empleados.map((empleado, index) => (
-                                <EmpleadosTable key={index} empleado={empleado} index={index} />
+                                <EmpleadosTable key={index} empleado={empleado} index={index}/>
                             ))
                             }
                         </TableBody>

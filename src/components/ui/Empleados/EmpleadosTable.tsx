@@ -2,6 +2,7 @@ import { IconButton, TableCell, TableRow } from "@mui/material";
 import EmpleadoDto from "../../../types/EmpleadoDto";
 import InfoIcon from '@mui/icons-material/Info';
 import { useEffect, useState } from "react";
+import EmpleadosModal from "./EmpleadosModal";
 
 interface EmpleadosTableProps {
     empleado: EmpleadoDto;
@@ -9,6 +10,7 @@ interface EmpleadosTableProps {
 }
 
 const EmpleadosTable: React.FC<EmpleadosTableProps> = ({ empleado, index }) => {
+    const [open, setOpen] = useState(false);
     const [windowDimension, setWindowDimension] = useState({
         width: window.innerWidth,
         height: window.innerHeight
@@ -37,11 +39,12 @@ const EmpleadosTable: React.FC<EmpleadosTableProps> = ({ empleado, index }) => {
                     <TableCell align="center">{empleado.usuario?.username}</TableCell>
                 }
                 <TableCell align="center">
-                    <IconButton>
+                    <IconButton onClick={() => setOpen(!open)}>
                         <InfoIcon color="primary"/>
                     </IconButton>
                 </TableCell>
             </TableRow>
+            <EmpleadosModal open={open} empleado={empleado} onClose={() => setOpen(!open)}/>
         </>
     )
 };

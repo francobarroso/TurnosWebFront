@@ -3,7 +3,7 @@ import EmpleadoDto from "../types/EmpleadoDto";
 
 const apiUrl = import.meta.env.VITE_API_SERVER_URL;
 
-export async function EmpleadoCreate(empleado: Empleado) {
+export async function EmpleadoCreate(empleado: Empleado | EmpleadoDto) {
 	const urlServer = `${apiUrl}/empleado`;
 	try {
 		const response = await fetch(urlServer, {
@@ -19,7 +19,7 @@ export async function EmpleadoCreate(empleado: Empleado) {
 			throw new Error(`Error: ${response.status} ${response.statusText}`);
 		}
 		
-		return await response.json() as Empleado;
+		return await response.json() as EmpleadoDto;
 	} catch (error) {
 		console.error('Error fetching dia:', error);
 		throw error;
@@ -31,6 +31,29 @@ export async function EmpleadoGetAll() {
 	try {
 		const response = await fetch(urlServer, {
 			method: 'GET',
+			headers: {
+				'Content-type': 'application/json'
+			},
+			mode: 'cors'
+		});
+
+		if (!response.ok) {
+			throw new Error(`Error: ${response.status} ${response.statusText}`);
+		}
+		
+		return await response.json() as EmpleadoDto[];
+	} catch (error) {
+		console.error('Error fetching dia:', error);
+		throw error;
+	}
+}
+
+export async function EmpleadoUpdate(empleado: Empleado | EmpleadoDto) {
+	const urlServer = `${apiUrl}/empleado/${empleado.id}`;
+	try {
+		const response = await fetch(urlServer, {
+			method: 'PUT',
+			body: JSON.stringify(empleado),
 			headers: {
 				'Content-type': 'application/json'
 			},

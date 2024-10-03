@@ -9,15 +9,14 @@ import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
 import Dia from "../../../types/Dia";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { DiaGetAll } from "../../../services/DiaService";
-import Usuario from "../../../types/Usuario";
-import { EmpleadoCreate } from "../../../services/EmpleadoService";
+import { EmpleadoCreate, EmpleadoUpdate } from "../../../services/EmpleadoService";
 import React from "react";
-import Horario from "../../../types/Horario";
+import EmpleadoDto from "../../../types/EmpleadoDto";
 
 interface EmpleadoModalProps {
     open: boolean;
-    onClose: () => void;
-    empleado: Empleado;
+    onClose: (updatedEmpleado?: EmpleadoDto) => void;
+    empleado: Empleado | EmpleadoDto;
 }
 
 const emptyDetalles = {
@@ -28,17 +27,8 @@ const emptyDetalles = {
     dias: []
 }
 
-const emptyUsuario = {
-    id: null,
-    eliminado: false,
-    username: "",
-    rol: null
-}
-
 const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado }) => {
-    const [currentEmpleado, setCurrentEmpleado] = useState<Empleado>({ ...empleado });
-    const [currentDetalles, setCurrentDetalles] = useState<Horario[]>([emptyDetalles]);
-    const [currentUsuario, setCurrentUsuario] = useState<Usuario>(emptyUsuario);
+    const [currentEmpleado, setCurrentEmpleado] = useState<Empleado | EmpleadoDto>({ ...empleado });
     const roles = Object.values(Rol).map((rol) => rol as Rol);
     const [dias, setDias] = useState<Dia[]>([]);
     const [windowDimension, setWindowDimension] = useState({
@@ -73,56 +63,61 @@ const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado 
 
     const handleChangeDetalles = (i: number, e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-
-        setCurrentDetalles(prev =>
-            prev.map((detalle, index) =>
+        setCurrentEmpleado(prev => ({
+            ...prev,
+            horarios: prev.horarios.map((detalle, index) =>
                 index === i ? { ...detalle, [name]: value } : detalle
             )
-        );
+        }));
     }
 
     const handleChangeUsuario = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string, newValue?: string | null) => {
-
         if (typeof e === 'string') {
-            // Si es un Autocomplete (recibe el name y el value directamente)
             const name = e;
-            setCurrentUsuario(prev => ({
-              ...prev,
-              [name]: newValue as Rol || '',  // Si newValue es null, establece ''
+            setCurrentEmpleado(prev => ({
+                ...prev,
+                usuario: { ...prev.usuario, [name]: newValue as Rol }
             }));
-          } else {
-            // Si es un campo tipo TextField (event tiene target con name y value)
+        } else {
             const { name, value } = e.target;
-            setCurrentUsuario(prev => ({
-              ...prev,
-              [name]: value
+            setCurrentEmpleado(prev => ({
+                ...prev,
+                usuario: { ...prev.usuario, [name]: value }
             }));
-          }
+        }
     }
 
     const handleDayClick = (dia: Dia, i: number) => {
-        setCurrentDetalles(prev => {
-            const newDetalles = [...prev];
-            const currentDias = newDetalles[i].dias;
+        setCurrentEmpleado(prev => {
+            const newHorarios = [...prev.horarios]; //Copiar Array de horarios actual
+            const currentDias = newHorarios[i].dias; //Guardar dias del horario i
 
-            newDetalles[i] = {
-                ...newDetalles[i],
-                dias: currentDias.some(d => d.id === dia.id)  // Verifica por ID u otra propiedad
-                    ? currentDias.filter(d => d.id !== dia.id)  // Si ya existe, lo elimina
-                    : [...currentDias, dia]  // Si no existe, lo agrega
+            newHorarios[i] = {
+                ...newHorarios[i],
+                dias: currentDias.some(d => d.id === dia.id) //Verifica que el dia clickeado exista
+                    ? currentDias.filter(d => d.id !== dia.id) //Si existe se remueve del array de dias del horario i
+                    : [...currentDias, dia] //Caso contrario se agrega al array de dias del horario i
             };
 
-            return newDetalles;
+            return {
+                ...prev,
+                horarios: newHorarios //Actualiza el array de horarios en el estado del empleado
+            }
         });
     };
 
     const handleAgregarHorario = () => {
-        setCurrentDetalles([...currentDetalles, emptyDetalles]);
-    }
+        setCurrentEmpleado(prev => ({
+            ...prev,
+            horarios: [...prev.horarios, emptyDetalles]
+        }));
+    };
 
     const handleEliminarDetalle = (i: number) => {
-        const newDetalles = currentDetalles.filter((_, index) => index !== i);
-        setCurrentDetalles(newDetalles);
+        const newHorarios = currentEmpleado.horarios.filter((_, index) => index !== i);
+        setCurrentEmpleado(prev => ({
+            ...prev, horarios: newHorarios
+        }));
     }
 
     useEffect(() => {
@@ -144,19 +139,17 @@ const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado 
     const handleClose = () => {
         onClose();
         setCurrentEmpleado({ ...empleado });
-        setCurrentDetalles([emptyDetalles]);
-        setCurrentUsuario({ ...emptyUsuario });
     }
 
     const handleSubmit = async () => {
-        const empleadoActualizado = {
-            ...currentEmpleado,
-            horarios: currentDetalles,
-            usuario: currentUsuario
-        };
-        
-        await EmpleadoCreate(empleadoActualizado);
+        console.log(currentEmpleado);
 
+        if (empleado.id !== null) {
+            await EmpleadoUpdate(currentEmpleado);
+        } else {
+            await EmpleadoCreate(currentEmpleado);
+        }
+        
         handleClose();
     }
 
@@ -188,7 +181,7 @@ const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado 
                         fullWidth
                         label="Username"
                         name="username"
-                        value={currentUsuario.username}
+                        value={currentEmpleado.usuario.username}
                         onChange={handleChangeUsuario}
                         margin="normal"
                         className={styles.textField}
@@ -196,7 +189,7 @@ const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado 
                     />
                     <Autocomplete
                         options={roles}
-                        value={currentUsuario.rol}
+                        value={currentEmpleado.usuario.rol}
                         onChange={(_, newValue) => handleChangeUsuario('rol', newValue)}
                         renderInput={(params) =>
                             <TextField
@@ -216,66 +209,74 @@ const EmpleadosModal: React.FC<EmpleadoModalProps> = ({ open, onClose, empleado 
                             <span className={styles.horarioTitle}>Agregar Horario</span>
                             <DataSaverOnIcon className={styles.addIcon} onClick={handleAgregarHorario} />
                         </Box>
-                        {currentDetalles.map((detalle, index) => (
-                            <React.Fragment key={index}>
-                                <Box className={styles.dias}>
-                                    {dias.map(dia => (
-                                        <Button
-                                            key={dia.id}
-                                            className={styles.diasButton}
-                                            variant="outlined"
-                                            onClick={() => handleDayClick(dia, index)}
-                                            style={{
-                                                backgroundColor: detalle.dias.some(d => d.id === dia.id) ? '#a32929' : 'transparent',
-                                                color: detalle.dias.some(d => d.id === dia.id) ? '#fff' : '#842121',
-                                                borderColor: detalle.dias.some(d => d.id === dia.id) ? '#fff' : '#842121',
+                        {currentEmpleado.horarios
+                            .sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
+                            .map((detalle, index) => (
+                                <React.Fragment key={index}>
+                                    <Box className={styles.dias}>
+                                        {dias.map(dia => (
+                                            <Button
+                                                key={dia.id}
+                                                className={styles.diasButton}
+                                                variant="outlined"
+                                                onClick={() => handleDayClick(dia, index)}
+                                                style={{
+                                                    backgroundColor: detalle.dias.some(d => d.id === dia.id) ? '#a32929' : 'transparent',
+                                                    color: detalle.dias.some(d => d.id === dia.id) ? '#fff' : '#842121',
+                                                    borderColor: detalle.dias.some(d => d.id === dia.id) ? '#fff' : '#842121',
+                                                }}
+                                            >
+                                                {windowDimension.width > 800 ? dia.denominacion : dia.denominacion.charAt(0)}
+                                            </Button>
+                                        ))}
+                                    </Box>
+                                    <Box mt={2} className={styles.form} mb={4}>
+                                        <TextField
+                                            fullWidth
+                                            label="Hora Inicio"
+                                            type="time"
+                                            name="horaInicio"
+                                            value={detalle.horaInicio}
+                                            onChange={(e) => handleChangeDetalles(index, e)}
+                                            margin="normal"
+                                            className={styles.horaForm}
+                                            InputLabelProps={{
+                                                shrink: true,
                                             }}
-                                        >
-                                            {windowDimension.width > 800 ? dia.denominacion : dia.denominacion.charAt(0)}
-                                        </Button>
-                                    ))}
-                                </Box>
-                                <Box mt={2} className={styles.form} mb={4}>
-                                    <TextField
-                                        fullWidth
-                                        label="Hora Inicio"
-                                        type="time"
-                                        name="horaInicio"
-                                        value={detalle.horaInicio}
-                                        onChange={(e) => handleChangeDetalles(index, e)}
-                                        margin="normal"
-                                        className={styles.horaForm}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                        />
 
-                                    <TextField
-                                        fullWidth
-                                        label="Hora Fin"
-                                        type="time"
-                                        name="horaFin"
-                                        value={detalle.horaFin}
-                                        onChange={(e) => handleChangeDetalles(index, e)}
-                                        margin="normal"
-                                        className={styles.horaForm}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                    <IconButton
-                                        className={styles.horaForm}
-                                        disabled={index === 0}
-                                        onClick={() => handleEliminarDetalle(index)}
-                                    >
-                                        <DeleteOutlineIcon />
-                                    </IconButton>
-                                </Box>
-                            </React.Fragment>
-                        ))}
+                                        <TextField
+                                            fullWidth
+                                            label="Hora Fin"
+                                            type="time"
+                                            name="horaFin"
+                                            value={detalle.horaFin}
+                                            onChange={(e) => handleChangeDetalles(index, e)}
+                                            margin="normal"
+                                            className={styles.horaForm}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                        <IconButton
+                                            className={styles.horaForm}
+                                            disabled={index === 0}
+                                            onClick={() => handleEliminarDetalle(index)}
+                                        >
+                                            <DeleteOutlineIcon />
+                                        </IconButton>
+                                    </Box>
+                                </React.Fragment>
+                            ))}
                     </Box>
                     <Box className={styles.buttonContainer}>
-                        <Button variant="contained" sx={{ ...colorConfigs.buttonStyles }} className={styles.button} onClick={handleSubmit}>Agregar</Button>
+                        <Button
+                            variant="contained"
+                            sx={{ ...colorConfigs.buttonStyles }}
+                            className={styles.button}
+                            onClick={handleSubmit}>
+                            {empleado.id !== null ? "Actualizar" : "Agregar"}
+                        </Button>
                     </Box>
                 </Box>
             </Modal>
